@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 
 <html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>To-Do This</title>
+    </head>
 
-    <form name="myForm" action="/action_page.php" onsubmit="return validateForm()" method="post" required>
-        <p id="p-todo">TODO:</p>
-        <ul>Clock App</ul>
-        <ul>To-Do App</ul>
-        <ul>Rock-Paper-Scissors App</ul>
-        <ul>Expense App, Part 1</ul>
-        <ul>Calculator App</ul>
-        <ul>Snake Game App</ul>
-        <ul>Expense App, Part 2</ul>
-        <ul>Star Wars App</ul>
-        <ul>Twitter Showcase App</ul>
-        <ul>Fantasy Stock Trading App</ul>
-        <ul>Contemplate the void</ul>
-        <ul>Play Last of Us II (again)</ul>
-    </form>
+    <body>
+        <div id="div-title">
+            <h1 id="h1-todo-title">TO-DO THIS:</h1>
+        </div>
+        <div id="div-list">
+            <input type="text" id="input-item" placeholder="Enter item...">
+        </div>
+        <ul id="ul-list-item"></ul>
+    </body>
+    
+    <script src="dom.js"></script>
 </html>
