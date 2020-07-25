@@ -1,25 +1,9 @@
-#div-title {
-    display:flex;
-    justify-content: center;
+body {
+    text-align:center;
 }
-
-#div-list {
-    display: flex;
-    justify-content: center;
-}
-
-li {
-    list-style: none;
-    text-align: center;
-}
-
-li:hover {
-    text-decoration: line-through;
-}
-
 
 input {
-	padding-top: 30px;
+    padding-top: 30px;
 	width: 500px;
 	height: 60px;
 	font-size: 40px;
@@ -28,4 +12,22 @@ input {
 
 input:focus {
 	outline:none;
+}
+
+li {
+    list-style: none;
+    text-align: center;
+    font-size: 40px;
+}
+
+li .done {
+    text-decoration: line-through;
+}
+
+li .undone {
+    text-decoration: none;
+}
+
+button {
+    color:black;
 }
