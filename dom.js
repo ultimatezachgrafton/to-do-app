@@ -1,64 +1,64 @@
-var inputArray = JSON.parse(window.localStorage.getItem("input"));
+var inputArray = JSON.parse(window.localStorage.getItem("localStorage"));
 
-// // Load localStorage items
-// document.addEventListener('DOMContentLoaded', function () {
-//   loadElements();
-// });
-
-// function loadElements() {
-//   for (var i = 0; i < inputArray.length; i++) {
-//     let li = document.createElement("li");
-//     let toDoItem = document.createTextNode(inputArray[i]);
-
-//     console.log(li, toDoItem, inputArray.length);
-
-//     // check if t is complete/incomplete
-//     // if (toDoItem.status = "complete") {
-//     //   toDoItem.style.textDecoration = "line-through";
-//     // } else {
-//     //   toDoItem.style.textDecoration = "none";
-//     // }
-
-//     toDoItem.id = inputArray[i];
-//     li.appendChild(toDoItem);
-
-//     document.getElementById("ul-list").appendChild(toDoItem);
-
-//     // Do not like this heavy handed linebreak...
-//     linebreak = document.createElement("br");
-//     document.getElementById("ul-list").appendChild(linebreak);
-
-//     console.log(inputArray[i].value);
-//     console.log(toDoItem);
-//   }
-// }
-
-document.getElementById("input-item").addEventListener("keyup", function(event) {
-  event.preventDefault();
-  if (event.keyCode === 13) {
-      newElement();
+// Load localStorage items
+document.addEventListener('DOMContentLoaded', function () {
+  if (inputArray !== null) {
+    loadElements();
   }
 });
 
+function loadElements() {
+  for (var i = 0; i < inputArray.length; i++) {
+
+    let listItemElement = document.createElement("li");
+    let textNode = document.createTextNode(inputArray[i].value);
+
+    // check if complete/incomplete
+    if (inputArray[i].status == "complete") {
+      inputArray[i].style.textDecoration = "line-through";
+    }
+
+    listItemElement.appendChild(textNode);
+
+    document.getElementById("ul-list").appendChild(textNode);
+
+    // // Do not like this heavy handed linebreak...
+    linebreak = document.createElement("br");
+    document.getElementById("ul-list").appendChild(linebreak);
+
+    console.log("inputArray[i] value: " + inputArray[i].value);
+  }
+}
+
 // Create a new list item when hitting "Enter"
-function newElement() {
-    let li = document.createElement("li");
-    let inputValue = document.getElementById("input-item").value;
-    let t = document.createTextNode(inputValue);
-    li.appendChild(t);
-    if (inputValue !== '') {
-      var toDoItem = { value: inputValue, status: "incomplete" };
-      document.getElementById("ul-list").appendChild(li);
-      inputArray.push(toDoItem);
-      window.localStorage.setItem("input", JSON.stringify(inputArray));
-      console.log(window.localStorage.getItem("getItem = " + "input"));
-    }  
-    document.getElementById("input-item").value = "";
-    console.log(inputArray);
+document.getElementById("input-item").addEventListener("keyup", function(event) {
+  event.preventDefault();
+  let inputValue = document.getElementById("input-item").value;
+  if (event.keyCode === 13 && inputValue !== '') {
+      newElement(inputArray);
+  }
+});
+
+function newElement(inputArray) {
+  let listItemElement = document.createElement("li");
+  let inputValue = document.getElementById("input-item").value;
+  let textNode = document.createTextNode(inputValue);
+  listItemElement.appendChild(textNode);
+  if (inputValue !== '') {
+    var newToDoItem = { value: inputValue, status: "incomplete" };
+    document.getElementById("ul-list").appendChild(listItemElement);
+    if (inputArray == null) {
+      var inputArray = []; 
+    }
+    inputArray.push(newToDoItem);
+    window.localStorage.setItem("localStorage", JSON.stringify(inputArray));
+    console.log("getItem = " + window.localStorage.getItem("localStorage"));
+  }  
+  document.getElementById("input-item").value = "";
+  console.log("inputArray after newElement(): " + inputArray.length);
 }
 
 document.getElementById("ul-list").addEventListener("click",function(e) {
-  // e.target is our targetted element.
   console.log(e.target);
   if (e.target.style.textDecoration == "line-through") {
     e.target.parentElement.removeChild(e.target);
