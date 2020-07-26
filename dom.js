@@ -1,23 +1,37 @@
-var inputArray = [];
+var inputArray = JSON.parse(window.localStorage.getItem("input"));
 
-// Load localStorage items
-document.addEventListener('DOMContentLoaded', function () {
-  loadElements();
-});
+// // Load localStorage items
+// document.addEventListener('DOMContentLoaded', function () {
+//   loadElements();
+// });
 
-function loadElements() {
-  inputArray = JSON.parse(window.localStorage.getItem("input"));
-  let arrayLength = inputArray.length;
-  for (var i = 0; i < arrayLength; i++) {
-    let li = document.createElement("li");
-    let t = document.createTextNode(inputArray[i].value);
-    li.appendChild(t);
-    document.getElementById("ul-list-item").appendChild(t);
-    linebreak = document.createElement("br");
-    document.getElementById("ul-list-item").appendChild(linebreak);
-    console.log(inputArray[i].value);
-  }
-}
+// function loadElements() {
+//   for (var i = 0; i < inputArray.length; i++) {
+//     let li = document.createElement("li");
+//     let toDoItem = document.createTextNode(inputArray[i]);
+
+//     console.log(li, toDoItem, inputArray.length);
+
+//     // check if t is complete/incomplete
+//     // if (toDoItem.status = "complete") {
+//     //   toDoItem.style.textDecoration = "line-through";
+//     // } else {
+//     //   toDoItem.style.textDecoration = "none";
+//     // }
+
+//     toDoItem.id = inputArray[i];
+//     li.appendChild(toDoItem);
+
+//     document.getElementById("ul-list").appendChild(toDoItem);
+
+//     // Do not like this heavy handed linebreak...
+//     linebreak = document.createElement("br");
+//     document.getElementById("ul-list").appendChild(linebreak);
+
+//     console.log(inputArray[i].value);
+//     console.log(toDoItem);
+//   }
+// }
 
 document.getElementById("input-item").addEventListener("keyup", function(event) {
   event.preventDefault();
@@ -34,7 +48,7 @@ function newElement() {
     li.appendChild(t);
     if (inputValue !== '') {
       var toDoItem = { value: inputValue, status: "incomplete" };
-      document.getElementById("ul-list-item").appendChild(li);
+      document.getElementById("ul-list").appendChild(li);
       inputArray.push(toDoItem);
       window.localStorage.setItem("input", JSON.stringify(inputArray));
       console.log(window.localStorage.getItem("getItem = " + "input"));
@@ -43,7 +57,9 @@ function newElement() {
     console.log(inputArray);
 }
 
-document.getElementById("ul-list-item").onclick = function(e) {
+document.getElementById("ul-list").addEventListener("click",function(e) {
+  // e.target is our targetted element.
+  console.log(e.target);
   if (e.target.style.textDecoration == "line-through") {
     e.target.parentElement.removeChild(e.target);
     let index = inputArray.indexOf(e.target);
@@ -53,8 +69,8 @@ document.getElementById("ul-list-item").onclick = function(e) {
   } else {
     e.target.style.textDecoration="line-through";
   }
-  console.log(inputArray);
-}
+  console.log(e.target);
+});
 
-// create objects out of input to keep track of strike-through
 // when selected loaded values, selects all - does not delete
+// does not load new entries
