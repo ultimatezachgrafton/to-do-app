@@ -17,20 +17,14 @@ function loadElements(inputArray) {
 
     // check if complete/incomplete
     if (inputArray[i].status == "complete") {
-      inputArray[i].style.textDecoration = "line-through";
+      listItemElement.style.textDecoration = "line-through";
     }
 
     listItemElement.appendChild(textNode);
-  
-    document.getElementById("ul-list").appendChild(textNode);
+    
+    document.getElementById("ul-list").appendChild(listItemElement);
 
-    // Do not like this heavy handed linebreak...
-    linebreak = document.createElement("br");
-    document.getElementById("ul-list").appendChild(linebreak);
-
-    console.log("inputArray[i] value: " + inputArray[i].value);
-
-    onItemClick(listItemElement);
+    listItemElement.addEventListener("click", onItemClick);
   }
 }
 
@@ -48,38 +42,43 @@ function newElement(inputArray) {
   let inputValue = document.getElementById("input-item").value;
   let textNode = document.createTextNode(inputValue);
   listItemElement.appendChild(textNode);
+
   if (inputValue !== '') {
     var newToDoItem = { value: inputValue, status: "incomplete" };
     document.getElementById("ul-list").appendChild(listItemElement);
     if (inputArray == null) {
       var inputArray = []; 
     }
+
     inputArray.push(newToDoItem);
+
     window.localStorage.setItem("localStorage", JSON.stringify(inputArray));
-    console.log("getItem = " + window.localStorage.getItem("localStorage"));
   }  
   document.getElementById("input-item").value = "";
-  console.log("inputArray after newElement(): " + inputArray.length);
 
-  onItemClick(listItemElement);
+  listItemElement.addEventListener("click", onItemClick);
 }
 
-function onItemClick(li) {
-  console.log("in onItemClick, li.id = " + li.id);
-  li.addEventListener("click",function(e) {
-    console.log("e.target = " + e.target);
-    if (e.target.style.textDecoration == "line-through") {
-      e.target.parentElement.removeChild(e.target);
-      let index = inputArray.indexOf(e.target);
-      let remove = inputArray.splice(index, 1);
-      window.localStorage.removeItem(e.target);
-      console.log(remove);
+function onItemClick() {
+    if (event.target.style.textDecoration == "line-through") {
+      event.target.parentElement.removeChild(event.target);
+
+      // iterate through inputArray to find the matching value, delete it
+      for (var i = 0; i < inputArray.length; i++) {
+        if (inputArray[i].value == event.target.id) {
+
+          let remove = inputArray.splice(i, 1);
+          window.localStorage.removeItem(event.target);
+          window.localStorage.setItem("localStorage", JSON.stringify(inputArray));
+        }
+      } 
     } else {
-      e.target.style.textDecoration="line-through";
+      for (var i = 0; i < inputArray.length; i++) {
+        if (inputArray[i].value == event.target.id) {
+          inputArray[i].status = "complete";
+          event.target.style.textDecoration="line-through";
+          window.localStorage.setItem("localStorage", JSON.stringify(inputArray));
+        }
     }
-    console.log(e.target);
-  });
+  }
 }
-
-// when selected loaded values, selects all - does not delete
-// does not load new entries
