@@ -1,27 +1,29 @@
-var inputArray = JSON.parse(window.localStorage.getItem("localStorage"));
+let toDoArray
+const ulItems = document.getElementById("ul-items")
 
 // Load localStorage items
 document.addEventListener('DOMContentLoaded', function () {
-  if (inputArray !== null) {
-    loadElements(inputArray);
-  }
+  toDoArray = getItemsFromStorage();
+  loadElements(toDoArray);
 });
 
-function loadElements(inputArray) {
-  for (var i = 0; i < inputArray.length; i++) {
+function getItemsFromStorage() {
+  const items = JSON.parse(window.localStorage.getItem("localStorage"));
+  return !items ? [] : items;
+}
+
+function loadElements(toDos) {
+  for (let toDo of toDos) {
 
     let listItemElement = document.createElement("li");
-    listItemElement.id = inputArray[i].value;
-
-    let textNode = document.createTextNode(inputArray[i].value);
+    listItemElement.id = toDo.value;
+    listItemElement.textContent = toDo.value;
 
     // check if complete/incomplete
-    if (inputArray[i].status == "complete") {
-      listItemElement.style.textDecoration = "line-through";
+    if (toDo.status == "complete") {
+      listItemElement.classtList.add("completed");
     }
-
-    listItemElement.appendChild(textNode);
-    
+ 
     document.getElementById("ul-list").appendChild(listItemElement);
 
     listItemElement.addEventListener("click", onItemClick);
@@ -30,55 +32,45 @@ function loadElements(inputArray) {
 
 // Create a new list item when hitting "Enter"
 document.getElementById("input-item").addEventListener("keyup", function(event) {
-  event.preventDefault();
   let inputValue = document.getElementById("input-item").value;
   if (event.keyCode === 13 && inputValue !== '') {
       newElement(inputArray);
   }
 });
 
-function newElement(inputArray) {
-  let listItemElement = document.createElement("li");
-  let inputValue = document.getElementById("input-item").value;
-  let textNode = document.createTextNode(inputValue);
-  listItemElement.appendChild(textNode);
+function newElement(value) {
+  if (Value !== '') { 
+    let listItemElement = document.createElement("li");
+    listItemElement.textContent = value;
+    listItemElement.id = value;
+    var newTodDoItem = { value: value, status: "incomplete" };
+    ulItems.appendChild(listItemElement)
+    toDoArray.push(newToDoItem)
+    window.localStorage.setItem("localStorage", JSON.stringify(toDoArray))
+    toDoArray = getItemsFromStorage
+    document.getElementById("input-item").value = "";
+    listItemElement.addEventListener("click", onItemClick);
+}
 
-  if (inputValue !== '') {
-    var newToDoItem = { value: inputValue, status: "incomplete" };
-    document.getElementById("ul-list").appendChild(listItemElement);
-    if (inputArray == null) {
-      var inputArray = []; 
-    }
-
-    inputArray.push(newToDoItem);
-
-    window.localStorage.setItem("localStorage", JSON.stringify(inputArray));
-  }  
-  document.getElementById("input-item").value = "";
-
-  listItemElement.addEventListener("click", onItemClick);
+function writeToLocalStorage(value) {
+    window.localStorage.setItem("localStorage", JSON.stringify(value))
 }
 
 function onItemClick() {
-    if (event.target.style.textDecoration == "line-through") {
-      event.target.parentElement.removeChild(event.target);
-
-      // iterate through inputArray to find the matching value, delete it
-      for (var i = 0; i < inputArray.length; i++) {
-        if (inputArray[i].value == event.target.id) {
-
-          let remove = inputArray.splice(i, 1);
-          window.localStorage.removeItem(event.target);
-          window.localStorage.setItem("localStorage", JSON.stringify(inputArray));
-        }
-      } 
-    } else {
-      for (var i = 0; i < inputArray.length; i++) {
-        if (inputArray[i].value == event.target.id) {
-          inputArray[i].status = "complete";
-          event.target.style.textDecoration="line-through";
-          window.localStorage.setItem("localStorage", JSON.stringify(inputArray));
-        }
+  const toDoItem = event.target
+  toDoArray = getItemsFromStorage()
+  if (toDoItem.classtList.contains("completed")) {
+    toDoItem.parentElement.removeChild(toDoItem);
+    const newToDoArray = toDoArray.filter (toDo => toDo.value !== toDoItem.id)
+    writeToLocalStorage(newToDoArray)
+    toDoArray = getItemsFromStorage()
+  } else {
+    for (let toDo of toDoArray) {
+      if (toDo.value === toDoItem.id) {
+        toDo.status = "complete"
+        toDoItem.classList.add("completed")
+        writeToLocalStorage(toDoArray)
+      }
     }
   }
 }
