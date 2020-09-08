@@ -46,8 +46,8 @@ function newElement(value) {
     var newTodDoItem = { value: value, status: "incomplete" };
     ulItems.appendChild(listItemElement)
     toDoArray.push(newToDoItem)
-    window.localStorage.setItem("localStorage", JSON.stringify(toDoArray))
-    toDoArray = getItemsFromStorage
+    writeToLocalStorage(toDoArray)
+    toDoArray = getItemsFromStorage()
     document.getElementById("input-item").value = "";
     listItemElement.addEventListener("click", onItemClick);
 }
