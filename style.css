@@ -20,12 +20,8 @@ li {
     font-size: 40px;
 }
 
-li .done {
+.completed {
     text-decoration: line-through;
-}
-
-li .undone {
-    text-decoration: none;
 }
 
 button {
