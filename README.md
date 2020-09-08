@@ -1,6 +1,6 @@
 # to-do-app
 
-https://github.com/ultimatezachgrafton/to-do-app/blob/master/todo-image.png
+<img src="https://github.com/ultimatezachgrafton/to-do-app/blob/master/todo-image.png">
 
 To-Do App utilizing javascript and local storage.
 
