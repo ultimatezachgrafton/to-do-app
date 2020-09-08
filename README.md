@@ -1,5 +1,7 @@
 # to-do-app
 
+https://github.com/ultimatezachgrafton/to-do-app/blob/master/todo-image.png
+
 To-Do App utilizing javascript and local storage.
 
 Got stuff to do? Type an item and hit enter to add it to your list.
