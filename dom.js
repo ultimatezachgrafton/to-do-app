@@ -1,5 +1,5 @@
 let toDoArray
-const ulItems = document.getElementById("ul-items")
+const ulItems = document.getElementById("ul-list")
 
 // Load localStorage items
 document.addEventListener('DOMContentLoaded', function () {
@@ -14,18 +14,14 @@ function getItemsFromStorage() {
 
 function loadElements(toDos) {
   for (let toDo of toDos) {
-
     let listItemElement = document.createElement("li");
     listItemElement.id = toDo.value;
     listItemElement.textContent = toDo.value;
-
     // check if complete/incomplete
-    if (toDo.status == "complete") {
-      listItemElement.classtList.add("completed");
+    if (toDo.status === "complete") {
+      listItemElement.classList.add("completed");
     }
- 
-    document.getElementById("ul-list").appendChild(listItemElement);
-
+    ulItems.appendChild(listItemElement);
     listItemElement.addEventListener("click", onItemClick);
   }
 }
@@ -38,11 +34,11 @@ document.getElementById("input-item").addEventListener("keyup", function(event) 
 });
 
 function newElement(value) {
-  if (Value !== '') { 
+  if (value !== '') { 
     let listItemElement = document.createElement("li");
     listItemElement.textContent = value;
     listItemElement.id = value;
-    var newTodDoItem = { value: value, status: "incomplete" };
+    var newToDoItem = { value: value, status: "incomplete" };
     ulItems.appendChild(listItemElement)
     toDoArray.push(newToDoItem)
     writeToLocalStorage(toDoArray)
@@ -59,7 +55,7 @@ function writeToLocalStorage(value) {
 function onItemClick() {
   const toDoItem = event.target
   toDoArray = getItemsFromStorage()
-  if (toDoItem.classtList.contains("completed")) {
+  if (toDoItem.classList.contains("completed")) {
     toDoItem.parentElement.removeChild(toDoItem);
     const newToDoArray = toDoArray.filter (toDo => toDo.value !== toDoItem.id)
     writeToLocalStorage(newToDoArray)
