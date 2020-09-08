@@ -32,9 +32,8 @@ function loadElements(toDos) {
 
 // Create a new list item when hitting "Enter"
 document.getElementById("input-item").addEventListener("keyup", function(event) {
-  let inputValue = document.getElementById("input-item").value;
-  if (event.keyCode === 13 && inputValue !== '') {
-      newElement(inputArray);
+  if (event.keyCode === 13) {
+      newElement(event.target.value);
   }
 });
 
@@ -50,6 +49,7 @@ function newElement(value) {
     toDoArray = getItemsFromStorage()
     document.getElementById("input-item").value = "";
     listItemElement.addEventListener("click", onItemClick);
+  }
 }
 
 function writeToLocalStorage(value) {
