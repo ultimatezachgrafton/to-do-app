@@ -2,9 +2,7 @@
 
 <img src="https://github.com/ultimatezachgrafton/to-do-app/blob/master/todo-image.png">
 
-To-Do App utilizing javascript and local storage.
-
-<a href="https://ultimatezachgrafton.github.io/to-do-app">Try it here!</a>
+A simple to-do App. <a href="https://ultimatezachgrafton.github.io/to-do-app">Try it here!</a>
 
 1. Type an item and hit enter to add it to your list.
 2. Click an item to cross it out and feel the endorphins flow (this is the BEST and most ESSENTIAL function of any to-do app).
